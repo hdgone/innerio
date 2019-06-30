@@ -20,29 +20,27 @@ class ModelSerializer:
     async def serialize_instance(self):
         """Serialize a single model instance"""
 
-        tablename = self.query.__table__.name
-        return await self._create_instance_dict(instance=self.query,
-                                                tablename=tablename)
+        return await self._create_instance_dict(instance=self.query)
 
     async def serialize_list(self):
         """Serialize a list of model instances"""
 
         data = []
-        tablename = self.query[0].__table__.name
 
         for instance in self.query:
-            od = await self._create_instance_dict(instance=instance,
-                                                  tablename=tablename)
+            od = await self._create_instance_dict(instance=instance)
             data.append(od)
 
         return data
 
     @staticmethod
     async def _create_instance_dict(
-            instance, tablename, input_dict=None
+            instance, input_dict=None
     ):
         if input_dict is None:
             input_dict = OrderedDict()
+
+        tablename = instance.__table__.name
 
         for field in instance.__table__.columns:
             # remove table prefix for every field in a table
