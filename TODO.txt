@@ -1,0 +1,13 @@
+- add querysets
+- add serializers
+
+1. add user image
+2. add country flag
+
+
+use metaclasses to always connect to db first
+
+
+Dockerfile:
+    run models.py
+    run main.py
