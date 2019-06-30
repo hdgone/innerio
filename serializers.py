@@ -34,9 +34,17 @@ class ModelSerializer:
         return data
 
     @staticmethod
-    async def _create_instance_dict(
-            instance, input_dict=None
-    ):
+    async def _create_instance_dict(instance, input_dict=None):
+        """
+        Create a dictionary representation of a model instance
+
+        :param instance: a single model instance
+        :param input_dict: (optional) a pre-defined dictionary for storing
+         instances
+        :return: OrderDict with instance fields as values and their names as
+         keys
+        """
+
         if input_dict is None:
             input_dict = OrderedDict()
 
