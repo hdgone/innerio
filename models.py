@@ -33,10 +33,14 @@ class Book(db.Model):
     year = db.Column(db.Integer())
 
 
-async def main():
+async def init_db():
+    await db.set_bind(DB_ADDRESS)
+
+
+async def migrate():
     await db.set_bind(DB_ADDRESS)
     await db.gino.create_all()
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(migrate())
