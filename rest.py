@@ -52,7 +52,7 @@ class ListEndpoint(Endpoint):
         if not obj_list:
             return Response(
                 status=404,
-                body=json.dumps({'Not found': 404}),
+                body=json.dumps({}),
                 content_type='application/json'
             )
 
