@@ -63,6 +63,13 @@ class ListEndpoint(Endpoint):
         )
 
     async def post(self, request) -> Response:
+        data = await request.json()
+
+        instance = await self.model.create(**data)
+        serialized_instance = await ModelSerializer(instance).to_json()
+
         return Response(
-            status=201
+            status=201,
+            body=serialized_instance,
+            content_type='application/json'
         )
