@@ -127,3 +127,7 @@ dmypy.json
 
 # IDE's
 .idea/
+
+
+# Tasks
+TODO.txt
