@@ -1,11 +1,11 @@
 - add querysets
-- add serializers
+- add serializers (serialize a single object)
+- add logging
+- add files
 
-1. add user image
-2. add country flag
 
-
-use metaclasses to always connect to db first
+- separate coroutines for migration and init
+- refactor O(n**2) in serializers
 
 
 Dockerfile:
