@@ -5,6 +5,7 @@ from aiohttp.web import Response, Request
 from aiohttp.web import HTTPMethodNotAllowed, HTTPBadRequest, HTTPNotFound
 
 from serializers import ModelSerializer
+from validator import Validator
 
 
 DEFAULT_METHODS = ('GET', 'POST', 'PUT', 'DELETE')
@@ -44,17 +45,10 @@ class Endpoint:
 class ListEndpoint(Endpoint):
     def __init__(self, model):
         super().__init__()
-        self.model = model
+        self.validator = Validator(model)
 
     async def get(self) -> Response:
-        obj_list = await self.model.query.gino.all()
-
-        if not obj_list:
-            return Response(
-                status=404,
-                body=json.dumps({}),
-                content_type='application/json'
-            )
+        obj_list = await self.validator.retrieve_all()
 
         data = await ModelSerializer(obj_list).to_json()
 
@@ -65,7 +59,7 @@ class ListEndpoint(Endpoint):
     async def post(self, request) -> Response:
         data = await request.json()
 
-        instance = await self.model.create(**data)
+        instance = await self.validator.create(**data)
         serialized_instance = await ModelSerializer(instance).to_json()
 
         return Response(
