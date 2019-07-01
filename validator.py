@@ -2,6 +2,12 @@ from aiohttp.web import HTTPBadRequest, HTTPNotFound
 
 
 class Validator:
+    """
+    Data validator class, executes on top of GINO's CRUD methods with
+    validation before execution.
+
+    :param model: a GINO model to execute methods on
+    """
     def __init__(self, model):
         self.model = model
 
