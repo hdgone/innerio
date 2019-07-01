@@ -44,5 +44,3 @@ class Validator:
                 columns.append(col)
 
         return columns
-
-
