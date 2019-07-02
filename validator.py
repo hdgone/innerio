@@ -1,3 +1,4 @@
+from asyncpg.exceptions import DataError
 from aiohttp.web import HTTPBadRequest, HTTPNotFound
 
 
@@ -31,6 +32,8 @@ class Validator:
                 text=f"Invalid request data. Possible choices are: "
                      f"{', '.join(self._get_table_columns())}"
             )
+        except DataError as e:
+            raise HTTPBadRequest(text=str(e))
         else:
             return instance
 
