@@ -1,14 +1,13 @@
-import json
 from inspect import signature
 
 from aiohttp.web import Response, Request
-from aiohttp.web import HTTPMethodNotAllowed, HTTPBadRequest, HTTPNotFound
+from aiohttp.web import HTTPMethodNotAllowed, HTTPBadRequest
 
 from serializers import ModelSerializer
 from validator import Validator
 
 
-DEFAULT_METHODS = ('GET', 'POST', 'PUT', 'DELETE')
+DEFAULT_METHODS = ('GET', 'POST', 'PATCH', 'DELETE')
 
 
 class Endpoint:
@@ -81,3 +80,9 @@ class InstanceEndpoint(Endpoint):
         return Response(
             status=200, body=data, content_type='application/json'
         )
+
+    async def patch(self, request, instance_id):
+        request_data = await request.json()
+        await self.validator.update(instance_id, **request_data)
+
+        return Response(status=204)

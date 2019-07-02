@@ -24,11 +24,20 @@ class Validator:
         try:
             query = self.model.query.where(self.model.id == int(instance_id))
         except ValueError:
-            raise HTTPBadRequest(text='Instance id must be integer')
+            raise HTTPBadRequest(text='Instance id must be an integer')
 
         obj = await query.gino.first_or_404()
 
         return obj
+
+    async def update(self, instance_id, **kwargs):
+        try:
+            status = await self.model.update.values(**kwargs)\
+                .where(self.model.id == int(instance_id)).gino.status()
+        except ValueError:
+            raise HTTPBadRequest(text='Instance id must be an integer')
+
+        return status
 
     async def create(self, **kwargs):
 
