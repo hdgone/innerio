@@ -67,3 +67,17 @@ class ListEndpoint(Endpoint):
             body=serialized_instance,
             content_type='application/json'
         )
+
+
+class InstanceEndpoint(Endpoint):
+    def __init__(self, model):
+        super().__init__()
+        self.validator = Validator(model)
+
+    async def get(self, instance_id):
+        instance = await self.validator.retrieve(instance_id)
+        data = await ModelSerializer(instance).to_json()
+
+        return Response(
+            status=200, body=data, content_type='application/json'
+        )

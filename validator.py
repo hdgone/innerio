@@ -20,6 +20,16 @@ class Validator:
 
         return obj_list
 
+    async def retrieve(self, instance_id):
+        try:
+            query = self.model.query.where(self.model.id == int(instance_id))
+        except ValueError:
+            raise HTTPBadRequest(text='Instance id must be integer')
+
+        obj = await query.gino.first_or_404()
+
+        return obj
+
     async def create(self, **kwargs):
 
         if not kwargs:
