@@ -34,6 +34,8 @@ class Validator:
         try:
             status = await self.model.update.values(**kwargs)\
                 .where(self.model.id == int(instance_id)).gino.status()
+            if status[0] == 'UPDATE 0':
+                raise HTTPNotFound(text='Requested object does not exist')
         except ValueError:
             raise HTTPBadRequest(text='Instance id must be an integer')
 
