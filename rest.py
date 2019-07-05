@@ -86,3 +86,8 @@ class InstanceEndpoint(Endpoint):
         await self.validator.update(instance_id, **request_data)
 
         return Response(status=204)
+
+    async def delete(self, instance_id):
+        await self.validator.delete(instance_id)
+
+        return Response(status=200, text=f'Successfully deleted {instance_id}')

@@ -12,6 +12,23 @@ class Validator:
     def __init__(self, model):
         self.model = model
 
+    async def create(self, **kwargs):
+
+        if not kwargs:
+            raise HTTPBadRequest(text="Request body cannot be empty.")
+
+        try:
+            instance = await self.model.create(**kwargs)
+        except KeyError:
+            raise HTTPBadRequest(
+                text=f"Invalid request data. Possible choices are: "
+                     f"{', '.join(self._get_table_columns())}"
+            )
+        except DataError as e:
+            raise HTTPBadRequest(text=str(e))
+        else:
+            return instance
+
     async def retrieve_all(self):
         obj_list = await self.model.query.gino.all()
 
@@ -41,22 +58,16 @@ class Validator:
 
         return status
 
-    async def create(self, **kwargs):
-
-        if not kwargs:
-            raise HTTPBadRequest(text="Request body cannot be empty.")
-
+    async def delete(self, instance_id):
         try:
-            instance = await self.model.create(**kwargs)
-        except KeyError:
-            raise HTTPBadRequest(
-                text=f"Invalid request data. Possible choices are: "
-                     f"{', '.join(self._get_table_columns())}"
-            )
-        except DataError as e:
-            raise HTTPBadRequest(text=str(e))
-        else:
-            return instance
+            status = await self.model.delete.\
+                where(self.model.id == int(instance_id)).gino.status()
+            if status[0] == 'DELETE 0':
+                raise HTTPNotFound(text='Requested object does not exist')
+        except ValueError:
+            raise HTTPBadRequest(text='Instance id must be an integer')
+
+        return status
 
     def _get_table_columns(self):
         tablename = self.model.__table__.name
