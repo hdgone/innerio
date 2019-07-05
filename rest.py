@@ -56,7 +56,7 @@ class ListEndpoint(Endpoint):
         )
 
     async def post(self, request) -> Response:
-        data = await request.json()
+        data = await self.validator.validate_request_data(request)
 
         instance = await self.validator.create(**data)
         serialized_instance = await ModelSerializer(instance).to_json()
@@ -82,7 +82,7 @@ class InstanceEndpoint(Endpoint):
         )
 
     async def patch(self, request, instance_id):
-        request_data = await request.json()
+        request_data = await self.validator.validate_request_data(request)
         await self.validator.update(instance_id, **request_data)
 
         return Response(status=204)

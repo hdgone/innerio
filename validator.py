@@ -1,3 +1,5 @@
+from json.decoder import JSONDecodeError
+
 from asyncpg.exceptions import DataError
 from aiohttp.web import HTTPBadRequest, HTTPNotFound
 
@@ -68,6 +70,15 @@ class Validator:
             raise HTTPBadRequest(text='Instance id must be an integer')
 
         return status
+
+    @staticmethod
+    async def validate_request_data(request):
+        try:
+            return await request.json()
+        except JSONDecodeError:
+            raise HTTPBadRequest(
+                text='You must specify data along with the request'
+            )
 
     def _get_table_columns(self):
         tablename = self.model.__table__.name
