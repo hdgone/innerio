@@ -1,5 +1,5 @@
 from aiohttp.web import UrlDispatcher
-from rest import InstanceEndpoint, ListEndpoint
+from api.rest import InstanceEndpoint, ListEndpoint
 
 
 class GenericResource:

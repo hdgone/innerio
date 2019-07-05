@@ -3,9 +3,9 @@ import asyncio
 from aiohttp.web import Application, run_app
 from gino.ext.aiohttp import Gino
 
-from models import Country, init_db
-from resource import GenericResource
-from settings import DB_ADDRESS
+from api.models import Author, Country, init_db
+from api.resource import GenericResource
+from api.settings import DB_ADDRESS
 
 
 async def main(loop):
@@ -22,7 +22,9 @@ async def main(loop):
     )
 
     countries = GenericResource('countries', Country)
+    authors = GenericResource('authors', Author)
     countries.register(app.router)
+    authors.register(app.router)
 
     return app
 

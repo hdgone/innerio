@@ -3,8 +3,8 @@ from inspect import signature
 from aiohttp.web import Response, Request
 from aiohttp.web import HTTPMethodNotAllowed, HTTPBadRequest
 
-from serializers import ModelSerializer
-from validator import Validator
+from api.serializers import ModelSerializer
+from api.validator import Validator
 
 
 DEFAULT_METHODS = ('GET', 'POST', 'PATCH', 'DELETE')

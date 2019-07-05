@@ -1,7 +1,7 @@
 import asyncio
 from gino import Gino
 
-from settings import DB_ADDRESS
+from api.settings import DB_ADDRESS
 
 
 db = Gino()
