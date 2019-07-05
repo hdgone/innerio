@@ -1,6 +1,6 @@
 from json.decoder import JSONDecodeError
 
-from asyncpg.exceptions import DataError
+from asyncpg.exceptions import DataError, ForeignKeyViolationError
 from aiohttp.web import HTTPBadRequest, HTTPNotFound
 
 
@@ -28,6 +28,9 @@ class Validator:
             )
         except DataError as e:
             raise HTTPBadRequest(text=str(e))
+        except ForeignKeyViolationError as e:
+            detail = e.as_dict().get('detail')
+            raise HTTPBadRequest(text=detail)
         else:
             return instance
 
