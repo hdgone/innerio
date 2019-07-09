@@ -17,7 +17,7 @@ class Validator:
     async def create(self, **kwargs):
 
         if not kwargs:
-            raise HTTPBadRequest(text="Request body cannot be empty.")
+            raise HTTPBadRequest(text="Request body cannot be empty")
 
         try:
             instance = await self.model.create(**kwargs)
