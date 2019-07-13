@@ -38,7 +38,7 @@ class Validator:
         obj_list = await self.model.query.gino.all()
 
         if not obj_list:
-            raise HTTPNotFound()
+            raise HTTPNotFound(text='[]')
 
         return obj_list
 
