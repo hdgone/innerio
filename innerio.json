@@ -1,0 +1,69 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "user": "admin",
+    "password": "pass",
+    "database": "library"
+  },
+  "endpoints": [
+    {
+      "name": "countries",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "name": {
+          "type": "String",
+          "length": 300
+        }
+      }
+    },
+    {
+      "name": "authors",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "name": {
+          "type": "String",
+          "length": 150
+        },
+        "bio": {
+          "type": "String",
+          "length": 1500
+        },
+        "country_id": {
+          "type": "Integer",
+          "foreign_key": "countries.id"
+        }
+      }
+    },
+    {
+      "name": "books",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "name": {
+          "type": "String",
+          "length": 300
+        },
+        "author_id": {
+          "type": "Integer",
+          "foreign_key": "authors.id"
+        },
+        "description": {
+          "type": "String",
+          "length": 1500
+        },
+        "year": {
+          "type": "Integer"
+        }
+      }
+    }
+  ]
+}
