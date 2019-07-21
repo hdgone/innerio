@@ -31,4 +31,4 @@ async def main(loop):
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     app = loop.run_until_complete(main(loop))
-    run_app(app)
+    run_app(app, host='0.0.0.0', port=8080)
