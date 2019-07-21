@@ -2,8 +2,9 @@ version: "3"
 
 services:
 
-  postgres1:
+  db:
     image: postgres:9.4
+    container_name: db
     restart: always
     ports:
       - "5432:5432"
@@ -11,3 +12,15 @@ services:
       POSTGRES_DB: library
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
+
+  innerio:
+    container_name: innerio
+    restart: 'on-failure'
+    build: .
+    volumes:
+      - .:/innerio
+    command: bash -c "python3 api/models.py && python3 main.py"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
