@@ -1,8 +1,13 @@
 import asyncio
+import time
 
-from api.settings import DB_ADDRESS
-from api.parser.endpoints_parser import EndpointsParser
-from api.parser.utils import db
+import sys
+sys.path.append('/')
+
+from settings import DB_ADDRESS
+
+from parser.endpoints_parser import EndpointsParser
+from parser.utils import db
 
 
 models_collection = EndpointsParser().models
@@ -18,4 +23,9 @@ async def migrate():
 
 
 if __name__ == '__main__':
-    asyncio.run(migrate())
+    try:
+        asyncio.run(migrate())
+    except ConnectionRefusedError:
+        print('database connection refused, retrying in 5 seconds...')
+        time.sleep(5)
+        asyncio.run(migrate())
