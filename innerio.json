@@ -4,64 +4,69 @@
     "port": 5432,
     "user": "admin",
     "password": "pass",
-    "database": "library"
+    "database": "cats"
   },
   "endpoints": [
     {
-      "name": "countries",
+      "name": "breeds",
       "fields": {
         "id": {
           "type": "Integer",
           "primary_key": true
+        },
+        "img_url": {
+          "type": "String",
+          "length": 3000
         },
         "name": {
           "type": "String",
           "length": 300
-        }
-      }
-    },
-    {
-      "name": "authors",
-      "fields": {
-        "id": {
-          "type": "Integer",
-          "primary_key": true
-        },
-        "name": {
-          "type": "String",
-          "length": 150
-        },
-        "bio": {
-          "type": "String",
-          "length": 1500
-        },
-        "country_id": {
-          "type": "Integer",
-          "foreign_key": "countries.id"
-        }
-      }
-    },
-    {
-      "name": "books",
-      "fields": {
-        "id": {
-          "type": "Integer",
-          "primary_key": true
-        },
-        "name": {
-          "type": "String",
-          "length": 300
-        },
-        "author_id": {
-          "type": "Integer",
-          "foreign_key": "authors.id"
         },
         "description": {
           "type": "String",
-          "length": 1500
+          "length": 2000
         },
-        "year": {
-          "type": "Integer"
+        "category_id": {
+          "type": "Integer",
+          "foreign_key": "categories.id"
+        }
+      }
+    },
+    {
+      "name": "categories",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "img_url": {
+          "type": "String",
+          "length": 3000
+        },
+        "name": {
+          "type": "String",
+          "length": 300
+        }
+      }
+    },
+    {
+      "name": "comments",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "body": {
+          "type": "String",
+          "length": 2000
+        },
+        "author": {
+          "type": "String",
+          "length": 300
+        },
+        "breed_id": {
+          "type": "Integer",
+          "foreign_key": "breeds.id"
         }
       }
     }
