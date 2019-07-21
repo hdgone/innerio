@@ -1,10 +1,5 @@
-import sys
 from gino import Gino
-
-sys.path.append('..')
-
-from api.settings import DB_ADDRESS
-
+from .conftest import DB_ADDRESS
 
 db = Gino()
 

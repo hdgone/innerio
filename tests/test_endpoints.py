@@ -5,11 +5,14 @@ import pytest
 from aiohttp.web import Application
 from gino.ext.aiohttp import Gino
 
+from .conftest import DB_ADDRESS
+
 sys.path.append('..')
 
 from api.resource import GenericResource
-from api.settings import DB_ADDRESS
 from tests._models import Author, Book, Country, init_db, teardown_db
+
+DB_ADDRESS = 'postgresql://admin:pass@localhost:5432/library'
 
 
 @pytest.fixture
