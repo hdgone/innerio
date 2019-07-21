@@ -7,7 +7,14 @@ from api.serializers import ModelSerializer
 from api.validator import Validator
 
 
-DEFAULT_METHODS = ('GET', 'POST', 'PATCH', 'DELETE')
+ALLOWED_HEADERS = ('Content-Type', 'Access-Control-Allow-Headers',
+                           'Authorization', 'X-Requested-With')
+DEFAULT_METHODS = ('GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS')
+DEFAULT_HEADERS = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': ', '.join(DEFAULT_METHODS),
+    'Access-Control-Allow-Headers': ', '.join(ALLOWED_HEADERS)
+}
 
 
 class Endpoint:
@@ -40,6 +47,13 @@ class Endpoint:
             **{arg_name: available_args[arg_name] for arg_name in wanted_args}
         )
 
+    async def options(self, request):
+
+        return Response(
+            status=200,
+            headers=DEFAULT_HEADERS
+        )
+
 
 class ListEndpoint(Endpoint):
     def __init__(self, model):
@@ -52,7 +66,10 @@ class ListEndpoint(Endpoint):
         data = await ModelSerializer(obj_list).to_json()
 
         return Response(
-            status=200, body=data, content_type='application/json'
+            status=200,
+            body=data,
+            content_type='application/json',
+            headers=DEFAULT_HEADERS
         )
 
     async def post(self, request) -> Response:
@@ -64,7 +81,8 @@ class ListEndpoint(Endpoint):
         return Response(
             status=201,
             body=serialized_instance,
-            content_type='application/json'
+            content_type='application/json',
+            headers=DEFAULT_HEADERS
         )
 
 
@@ -78,16 +96,23 @@ class InstanceEndpoint(Endpoint):
         data = await ModelSerializer(instance).to_json()
 
         return Response(
-            status=200, body=data, content_type='application/json'
+            status=200,
+            body=data,
+            content_type='application/json',
+            headers=DEFAULT_HEADERS
         )
 
     async def patch(self, request, instance_id):
         request_data = await self.validator.validate_request_data(request)
         await self.validator.update(instance_id, **request_data)
 
-        return Response(status=204)
+        return Response(status=204, headers=DEFAULT_HEADERS)
 
     async def delete(self, instance_id):
         await self.validator.delete(instance_id)
 
-        return Response(status=200, text=f'Successfully deleted {instance_id}')
+        return Response(
+            status=200,
+            text=f'Successfully deleted {instance_id}',
+            headers=DEFAULT_HEADERS
+        )
