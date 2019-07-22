@@ -8,7 +8,7 @@ from api.validator import Validator
 
 
 ALLOWED_HEADERS = ('Content-Type', 'Access-Control-Allow-Headers',
-                           'Authorization', 'X-Requested-With')
+                   'Authorization', 'X-Requested-With')
 DEFAULT_METHODS = ('GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS')
 DEFAULT_HEADERS = {
     'Access-Control-Allow-Origin': '*',
