@@ -12,7 +12,7 @@ sys.path.append('..')
 from api.resource import GenericResource
 from tests._models import Author, Book, Country, init_db, teardown_db
 
-DB_ADDRESS = 'postgresql://admin:pass@localhost:5432/library'
+DB_ADDRESS = 'postgresql://admin:pass@localhost:5432/recipes'
 
 
 @pytest.fixture

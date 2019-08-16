@@ -9,7 +9,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: library
+      POSTGRES_DB: recipes
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pass
 

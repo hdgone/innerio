@@ -1,3 +1,4 @@
+from gino.dialects.asyncpg import JSON
 from .utils import db
 
 
@@ -16,6 +17,7 @@ class FieldFactory:
         types = {
             "Integer": self._create_integer_data,
             "String": self._create_string_data,
+            'JSON': self._create_json_data
         }
 
         args, kwargs = types[self.field['type']]()
@@ -36,3 +38,6 @@ class FieldFactory:
         length = self.field.get('length', 1000)
 
         return [db.String(length)], {}
+
+    def _create_json_data(self):
+        return [JSON], {}

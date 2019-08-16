@@ -4,11 +4,11 @@
     "port": 5432,
     "user": "admin",
     "password": "pass",
-    "database": "library"
+    "database": "recipes"
   },
   "endpoints": [
     {
-      "name": "countries",
+      "name": "recipes",
       "fields": {
         "id": {
           "type": "Integer",
@@ -16,51 +16,47 @@
         },
         "name": {
           "type": "String",
-          "length": 300
-        }
-      }
-    },
-    {
-      "name": "authors",
-      "fields": {
-        "id": {
-          "type": "Integer",
-          "primary_key": true
-        },
-        "name": {
-          "type": "String",
-          "length": 150
-        },
-        "bio": {
-          "type": "String",
-          "length": 1500
-        },
-        "country_id": {
-          "type": "Integer",
-          "foreign_key": "countries.id"
-        }
-      }
-    },
-    {
-      "name": "books",
-      "fields": {
-        "id": {
-          "type": "Integer",
-          "primary_key": true
-        },
-        "name": {
-          "type": "String",
-          "length": 300
-        },
-        "author_id": {
-          "type": "Integer",
-          "foreign_key": "authors.id"
+          "length": 500
         },
         "description": {
           "type": "String",
-          "length": 1500
+          "length": 10000
         },
-        "year": {
+        "image_url": {
+          "type": "String",
+          "length": 1000
+        },
+        "time": {
+          "type": "String",
+          "length": 1000
+        },
+        "servings": {
+          "type": "Integer"
+        },
+        "complexity": {
+          "type": "Integer"
+        },
+        "ingredients": {
+          "type": "JSON"
+        },
+        "color_id": {
+          "type": "Integer",
+          "foreign_key": "colors.id"
+        }
+      }
+    },
+    {
+      "name": "colors",
+      "fields": {
+        "id": {
+          "type": "Integer",
+          "primary_key": true
+        },
+        "name": {
+          "type": "String",
+          "length": 500
+        },
+        "hex_code": {
           "type": "Integer"
         }
       }
